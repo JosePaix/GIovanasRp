@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa História</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .step {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* "Staircase" effect - alternating sides */
+        .step:nth-child(odd) .content {
+            margin-right: auto;
+            margin-left: 10%;
+        }
+
+        .step:nth-child(even) .content {
+            margin-left: auto;
+            margin-right: 10%;
+        }
+        
+        /* Center the first and last elements */
+        .step:first-child .content,
+        .step:last-child .content,
+        .step:nth-last-child(2) .content {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .content {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        img, video {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            object-fit: contain;
+        }
+
+        .final-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            color: #ff4d4d;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .step:nth-child(odd) .content,
+            .step:nth-child(even) .content {
+                margin: 0 auto;
+            }
+            .final-message {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="step">
+            <div class="content">
+                <img src="assets/foto1.jpeg" alt="Primeira foto juntos">
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="content">
+                <img src="assets/foto2.jpeg" alt="Sua companhia">
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="content">
+                <img src="assets/foto3.jpeg" alt="No seu sorriso">
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="content">
+                <img src="assets/foto4.jpeg" alt="Sempre será minha gatinha">
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="content">
+                <img src="assets/foto5.jpeg" alt="Minha princesinha">
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="content">
+                <video controls autoplay muted loop>
+                    <source src="assets/video_final.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="content">
+                <h1 class="final-message">Eu te amo bem grande ❤️</h1>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const steps = document.querySelectorAll('.step');
+            
+            // Show the first step immediately
+            if(steps.length > 0) {
+                steps[0].classList.add('visible');
+            }
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.3 // Trigger when 30% of the element is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            steps.forEach(step => {
+                observer.observe(step);
+            });
+        });
+    </script>
+</body>
+</html>
